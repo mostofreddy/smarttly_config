@@ -1,7 +1,7 @@
 {
     "name": "smarttly/config",
     "type": "library",
-    "description": "Simple library to load configuration files",
+    "description": "Lightweight configuration file loader",
     "license": "MIT",
     "version": "0.1.0",
     "keywords": [
