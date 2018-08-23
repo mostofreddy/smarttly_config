@@ -11,13 +11,12 @@
  * @license   MIT License (http://www.opensource.org/licenses/mit-license.php)
  * @link      https://github.com/mostofreddy
  */
-namespace Resty\Test;
+namespace Smarttly\Config\Test;
 
 // PHPUnit
 use PHPUnit\Framework\TestCase;
 // Config
 use Smarttly\Config\Config;
-
 
 /**
  * ConfigTest
@@ -111,6 +110,25 @@ class EnvTest extends TestCase
      * @dataProvider configProvider
      * @return       void
      */
+    public function testGetDefault(array $data):void
+    {
+        $config = new Config($data);
+        $expected = 'defaultValue';
+
+        $this->assertEquals(
+            $expected,
+            $config->get('invalidKey', $expected)
+        );
+    }
+
+    /**
+     * Test method
+     *
+     * @param array $data Config
+     *
+     * @dataProvider configProvider
+     * @return       void
+     */
     public function testMagicGet(array $data):void
     {
         $config = new Config($data);
@@ -138,5 +156,118 @@ class EnvTest extends TestCase
         $config = new Config($data);
 
         $this->assertEquals(count($data), $config->count());
+    }
+
+    /**
+     * Test method
+     *
+     * @param array $data Config
+     *
+     * @dataProvider configProvider
+     * @return       void
+     */
+    public function testCurrent(array $data):void
+    {
+        $config = new Config($data);
+
+        $this->assertEquals(
+            $data['name'],
+            $config->current()
+        );
+    }
+
+    /**
+     * Test method
+     *
+     * @param array $data Config
+     *
+     * @dataProvider configProvider
+     * @return       void
+     */
+    public function testKey(array $data):void
+    {
+        $config = new Config($data);
+
+        $this->assertEquals(
+            'name',
+            $config->key()
+        );
+    }
+
+    /**
+     * Test method
+     *
+     * @param array $data Config
+     *
+     * @dataProvider configProvider
+     * @return       void
+     */
+    public function testNext(array $data):void
+    {
+        $config = new Config($data);
+        $config->next();
+
+        $this->assertEquals(
+            $data['lastname'],
+            $config->current()
+        );
+    }
+
+    /**
+     * Test method
+     *
+     * @param array $data Config
+     *
+     * @dataProvider configProvider
+     * @return       void
+     */
+    public function testRewind(array $data):void
+    {
+        $config = new Config($data);
+        $config->next();
+        $config->rewind();
+
+        $this->assertEquals(
+            $data['name'],
+            $config->current()
+        );
+    }
+
+    /**
+     * Test method
+     *
+     * @param array $data Config
+     *
+     * @dataProvider configProvider
+     * @return       void
+     */
+    public function testValid(array $data):void
+    {
+        $config = new Config($data);
+
+        $this->assertTrue(
+            $config->valid()
+        );
+    }
+
+    /**
+     * Test method
+     *
+     * @param array $data Config
+     *
+     * @dataProvider configProvider
+     * @return       void
+     */
+    public function testValidFalse(array $data):void
+    {
+        $config = new Config($data);
+        $config->next();
+        $config->next();
+        $config->next();
+        $config->next();
+
+        $this->assertFalse(
+            $config->valid()
+        );
     }
 }
