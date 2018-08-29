@@ -45,6 +45,22 @@ class Json extends ReaderAbstract
     }
 
     /**
+     * Load config form a string
+     *
+     * @param string $string Data
+     *
+     * @return array
+     */
+    public function fromString(string $string):array
+    {
+        if (empty($string)) {
+            return [];
+        }
+
+        return $this->decode($string);
+    }
+
+    /**
      * Decode json string
      *
      * @param string $json Json string

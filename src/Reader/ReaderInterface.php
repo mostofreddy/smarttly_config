@@ -28,9 +28,18 @@ interface ReaderInterface
     /**
      * Load config form a file
      *
-     * @param string $path File path
+     * @param string $filename File path
      *
      * @return array
      */
-    public function fromFile(string $path):array;
+    public function fromFile(string $filename):array;
+
+    /**
+     * Load config form a string
+     *
+     * @param string $string Data
+     *
+     * @return array
+     */
+    public function fromString(string $string):array;
 }

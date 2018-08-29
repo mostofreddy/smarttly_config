@@ -280,4 +280,114 @@ TXT;
             $config
         );
     }
+
+    /**
+     * Test method
+     *
+     * @return void
+     */
+    public function testFromStringV1():void
+    {
+        $json = <<<TXT
+{
+    "object": {
+        "say": [
+            "Hello",
+            "World"
+        ]
+    }
+}
+TXT;
+        $reader = new Json();
+        $config = $reader->fromString($json);
+
+        $this->assertEquals(
+            [
+                "object" => [
+                    "say" => [
+                        "Hello",
+                        "World"
+                    ]
+                ]
+            ],
+            $config
+        );
+    }
+
+    /**
+     * Test method
+     *
+     * @return void
+     */
+    public function testFromStringV2():void
+    {
+        $json = [
+            "object" => [
+                "say" => [
+                    "Hello",
+                    "World"
+                ]
+            ]
+        ];
+
+        $reader = new Json();
+        $config = $reader->fromString(json_encode($json));
+
+        $this->assertEquals(
+            $json,
+            $config
+        );
+    }
+
+    /**
+     * Test method
+     *
+     * @return void
+     */
+    public function testFromStringV3():void
+    {
+        $json = '';
+
+        $reader = new Json();
+        $config = $reader->fromString($json);
+
+        $this->assertEquals(
+            [],
+            $config
+        );
+    }
+
+    /**
+     * Test method
+     *
+     * @expectedException        \Smarttly\Config\Exception\InvalidConfigFile
+     * @expectedExceptionMessage Invalid JSON configurations: did not return an array or object
+     *
+     * @return void
+     */
+    public function testFromStringV4():void
+    {
+        $json = '';
+
+        $reader = new Json();
+        $config = $reader->fromString(json_encode($json));
+    }
+
+    /**
+     * Test method
+     *
+     * @return void
+     */
+    public function testFromStringV5():void
+    {
+        $json = '';
+
+        $reader = new Json();
+        $config = $reader->fromString($json);
+
+        $this->assertEquals(
+            [],
+            $config
+        );
+    }
 }

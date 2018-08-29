@@ -45,6 +45,18 @@ class Php extends ReaderAbstract
     }
 
     /**
+     * Load config form a string
+     *
+     * @param string $string Data
+     *
+     * @return array
+     */
+    public function fromString(string $string):array
+    {
+        return $this->fromFile($string);
+    }
+
+    /**
      * Decode php array
      *
      * @param mixed $config Json

@@ -270,4 +270,36 @@ TXT;
             $config
         );
     }
+
+    /**
+     * Test method
+     *
+     * @return void
+     */
+    public function testFromStringV1():void
+    {
+        $content = <<<TXT
+<?php
+
+\$config = [];
+\$config['say'] = 'Hello World';
+\$config['other'] = new StdClass();
+\$config['other']->name = 'John Doe';
+return \$config;
+TXT;
+        $tmpFilename = $this->generateTmpFile($content);
+
+        $reader = new Php();
+        $config = $reader->fromString($tmpFilename);
+
+        $this->unlinkFile($tmpFilename);
+
+        $this->assertEquals(
+            [
+                'say' => 'Hello World',
+                'other' => ['name' => 'John Doe']
+            ],
+            $config
+        );
+    }
 }
