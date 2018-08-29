@@ -15,6 +15,7 @@ namespace Smarttly\Config;
 
 use Countable;
 use Iterator;
+use ArrayAccess;
 
 /**
  * Config
@@ -26,7 +27,7 @@ use Iterator;
  * @license   MIT License (http://www.opensource.org/licenses/mit-license.php)
  * @link      https://github.com/mostofreddy
  */
-class Config implements Countable, Iterator
+class Config implements Countable, Iterator, ArrayAccess
 {
     protected $data = [];
 
@@ -75,6 +76,30 @@ class Config implements Countable, Iterator
         return $default;
     }
 
+    /**
+     * Merge config
+     *
+     * @param Config $config Config instance
+     *
+     * @return void
+     */
+    public function merge(Config $config):void
+    {
+        foreach ($config as $key => $value) {
+            if (array_key_exists($key, $this->data)) {
+                if (is_int($key)) {
+                    $this->data[] = $value;
+                } elseif ($value instanceof self && $this->data[$key] instanceof self) {
+                    $this->data[$key]->merge($value);;
+                } else {
+                    $this->data[$key] = $value;
+                }
+            } else {
+                $this->data[$key] = $value;
+            }
+        }
+    }
+
     /*************************************************
      * Magic methods
      ************************************************/
@@ -82,13 +107,56 @@ class Config implements Countable, Iterator
      /**
       * Method __get: magic method
       *
-      * @param string $name Attribute name
+      * @param int|string $key Attribute name
 
       * @return mixed
       */
-    public function __get($name)
+    public function __get($key)
     {
-        return $this->get($name);
+        return $this->get($key);
+    }
+
+    /**
+     * Method __set: magic method
+     *
+     * @param int|string $key   Attribute name
+     * @param mixed      $value Value
+
+     * @return void
+     */
+    public function __set($key, $value)
+    {
+        if (is_array($value)) {
+            $this->data[$key] = new static($value);
+        } else if (is_null($key)) {
+            $this->data[] = $value;
+        } else {
+            $this->data[$key] = $value;
+        }
+    }
+
+    /**
+     * Method __isset(): magic method
+     *
+     * @param int|string $key Attribute name
+     *
+     * @return bool
+     */
+    public function __isset($key)
+    {
+        return isset($this->data[$key]);
+    }
+
+    /**
+     * Method unset(): magic method
+     *
+     * @param string $key Attribute name
+     *
+     * @return void
+     */
+    public function __unset($key)
+    {
+        unset($this->data[$key]);
     }
 
     /*************************************************
@@ -159,5 +227,59 @@ class Config implements Countable, Iterator
     public function valid()
     {
         return ($this->key() !== null);
+    }
+
+
+    /**
+     * Method offsetExists(): defined by ArrayAccess interface.
+     *
+     * @param mixed $offset Offset
+     *
+     * @see    ArrayAccess::offsetExists()
+     * @return bool
+     */
+    public function offsetExists($offset)
+    {
+        return $this->__isset($offset);
+    }
+
+    /**
+     * Method offsetGet(): defined by ArrayAccess interface.
+     *
+     * @param mixed $offset Offset
+     *
+     * @see    ArrayAccess::offsetGet()
+     * @return mixed
+     */
+    public function offsetGet($offset)
+    {
+        return $this->__get($offset);
+    }
+
+    /**
+     * Method offsetSet(): defined by ArrayAccess interface.
+     *
+     * @param mixed $offset Offset
+     * @param mixed $value  Value
+     *
+     * @see    ArrayAccess::offsetSet()
+     * @return void
+     */
+    public function offsetSet($offset, $value)
+    {
+        $this->__set($offset, $value);
+    }
+
+    /**
+     * Method offsetUnset(): defined by ArrayAccess interface.
+     *
+     * @param mixed $offset Offset
+     *
+     * @see    ArrayAccess::offsetUnset()
+     * @return void
+     */
+    public function offsetUnset($offset)
+    {
+        $this->__unset($offset);
     }
 }

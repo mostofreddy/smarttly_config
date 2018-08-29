@@ -1,6 +1,6 @@
 <?php
 /**
- * ConfigTest
+ * ConfigInterfaceMethodTest
  *
  * PHP version 7.2+
  *
@@ -19,7 +19,7 @@ use PHPUnit\Framework\TestCase;
 use Smarttly\Config\Config;
 
 /**
- * ConfigTest
+ * ConfigInterfaceMethodTest
  *
  * @category  Smarttly/Config
  * @package   Smarttly/Config
@@ -28,7 +28,7 @@ use Smarttly\Config\Config;
  * @license   MIT License (http://www.opensource.org/licenses/mit-license.php)
  * @link      https://github.com/mostofreddy
  */
-class ConfigTest extends TestCase
+class ConfigInterfaceMethodTest extends TestCase
 {
     /**
      * Data provider
@@ -56,14 +56,11 @@ class ConfigTest extends TestCase
      * @dataProvider configProvider
      * @return       void
      */
-    public function testNestedConfigInstanceOf(array $data):void
+    public function testCount(array $data):void
     {
         $config = new Config($data);
 
-        $this->assertInstanceOf(
-            Config::class,
-            $config->get('database')
-        );
+        $this->assertEquals(count($data), $config->count());
     }
 
     /**
@@ -74,31 +71,13 @@ class ConfigTest extends TestCase
      * @dataProvider configProvider
      * @return       void
      */
-    public function testNestedConfigData(array $data):void
-    {
-        $config = new Config($data);
-
-        $this->assertEquals(
-            $data['database']['driver'],
-            $config->get('database')->get('driver')
-        );
-    }
-
-    /**
-     * Test method
-     *
-     * @param array $data Config
-     *
-     * @dataProvider configProvider
-     * @return       void
-     */
-    public function testGet(array $data):void
+    public function testCurrent(array $data):void
     {
         $config = new Config($data);
 
         $this->assertEquals(
             $data['name'],
-            $config->get('name')
+            $config->current()
         );
     }
 
@@ -110,14 +89,13 @@ class ConfigTest extends TestCase
      * @dataProvider configProvider
      * @return       void
      */
-    public function testGetDefault(array $data):void
+    public function testKey(array $data):void
     {
         $config = new Config($data);
-        $expected = 'defaultValue';
 
         $this->assertEquals(
-            $expected,
-            $config->get('invalidKey', $expected)
+            'name',
+            $config->key()
         );
     }
 
@@ -129,13 +107,34 @@ class ConfigTest extends TestCase
      * @dataProvider configProvider
      * @return       void
      */
-    public function testMagicGet(array $data):void
+    public function testNext(array $data):void
     {
         $config = new Config($data);
+        $config->next();
+
+        $this->assertEquals(
+            $data['lastname'],
+            $config->current()
+        );
+    }
+
+    /**
+     * Test method
+     *
+     * @param array $data Config
+     *
+     * @dataProvider configProvider
+     * @return       void
+     */
+    public function testRewind(array $data):void
+    {
+        $config = new Config($data);
+        $config->next();
+        $config->rewind();
 
         $this->assertEquals(
             $data['name'],
-            $config->name
+            $config->current()
         );
     }
 
@@ -147,17 +146,13 @@ class ConfigTest extends TestCase
      * @dataProvider configProvider
      * @return       void
      */
-    public function testMerge1(array $data):void
+    public function testValid(array $data):void
     {
-        $expected = 'Smith';
+        $config = new Config($data);
 
-        $config1 = new Config($data);
-        $config2 = new Config($data);
-        $config2->lastname = $expected;
-
-        $config1->merge($config2);
-
-        $this->assertEquals($expected, $config1->lastname);
+        $this->assertTrue(
+            $config->valid()
+        );
     }
 
     /**
@@ -168,17 +163,17 @@ class ConfigTest extends TestCase
      * @dataProvider configProvider
      * @return       void
      */
-    public function testMerge2(array $data):void
+    public function testValidFalse(array $data):void
     {
-        $expected = 'Smith';
+        $config = new Config($data);
+        $config->next();
+        $config->next();
+        $config->next();
+        $config->next();
 
-        $config1 = new Config($data);
-        $config2 = new Config($data);
-        $config2->say = ['Hello', 'World'];
-
-        $config1->merge($config2);
-
-        $this->assertInstanceOf(Config::class, $config1->say);
+        $this->assertFalse(
+            $config->valid()
+        );
     }
 
     /**
@@ -189,17 +184,12 @@ class ConfigTest extends TestCase
      * @dataProvider configProvider
      * @return       void
      */
-    public function testMerge3(array $data):void
+    public function testOffsetExists(array $data):void
     {
-        $expected = 'Hello World';
-
-        $config1 = new Config($data);
-        $config2 = new Config($data);
-        $config2[] = $expected;
-
-        $config1->merge($config2);
-
-        $this->assertEquals($expected, $config1[0]);
+        $config = new Config($data);
+        $this->assertTrue(
+            isset($config['name'])
+        );
     }
 
     /**
@@ -210,17 +200,64 @@ class ConfigTest extends TestCase
      * @dataProvider configProvider
      * @return       void
      */
-    public function testMerge4(array $data):void
+    public function testOffsetUnset(array $data):void
     {
-        $expected = 'Hello World';
+        $config = new Config($data);
+        unset($config['name']);
+        $this->assertFalse(
+            isset($config->name)
+        );
+    }
 
-        $config1 = new Config($data);
-        $config1[0] = 'Hello';
-        $config2 = new Config($data);
-        $config2[0] = $expected;
+    /**
+     * Test method
+     *
+     * @param array $data Config
+     *
+     * @dataProvider configProvider
+     * @return       void
+     */
+    public function testOffsetSetKeyString(array $data):void
+    {
+        $expected = "Hello World";
+        $config = new Config($data);
+        $config->say = $expected;
+        $this->assertEquals($expected, $config->say);
+    }
 
-        $config1->merge($config2);
+    /**
+     * Test method
+     *
+     * @param array $data Config
+     *
+     * @dataProvider configProvider
+     * @return       void
+     */
+    public function testOffsetSetKeyInt(array $data):void
+    {
+        $expected = "Hello World";
+        $config = new Config($data);
+        $config[] = $expected;
+        $this->assertEquals($expected, $config[0]);
+    }
 
-        $this->assertEquals($expected, $config1[1]);
+    /**
+     * Test method
+     *
+     * @param array $data Config
+     *
+     * @dataProvider configProvider
+     * @return       void
+     */
+    public function testOffsetSetArray(array $data):void
+    {
+        $expected = ["Hello", "World"];
+        $configExpected = new Config($expected);
+
+        $config = new Config($data);
+        $config->say = $expected;
+
+        $this->assertEquals($configExpected, $config->say);
+        $this->assertInstanceOf(Config::class, $config->say);
     }
 }
