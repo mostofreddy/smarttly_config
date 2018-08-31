@@ -1,17 +1,18 @@
 language: php
-
 php:
-  - 7.2
-
+- 7.2
 before_script:
-  - composer self-update
-  - composer install
-  - cp ruleset.xml.dist ruleset.xml
-
+- composer self-update
+- composer install
+- cp ruleset.xml.dist ruleset.xml
 script:
-  - mkdir -p build/logs
-  - php vendor/bin/phpunit --coverage-clover build/logs/clover.xml
-  - php vendor/bin/phpcs --standard=ruleset.xml
-
+- mkdir -p build/logs
+- php vendor/bin/phpunit --coverage-clover build/logs/clover.xml
+- php vendor/bin/phpcs --standard=ruleset.xml
 after_success:
-  - travis_retry php vendor/bin/php-coveralls -v
+- travis_retry php vendor/bin/php-coveralls -v
+- sh scripts/deploy_docs.sh
+env:
+  global:
+    - GITHUB_REPO: "mostofreddy/smarttly_config"
+    - secure: HfPy6acnWr9hV28bAXf/u4584hPPLut/l9aWtNOeYy8gaXKt3mjod2boegWRy/3hZYWccaJYJ1vVIUoiKWckg9LujKRRSQEnG2nj8iTJAebkvzdkFoeBq9Q2/3Uk6w6dZ0cFWmr238iV8686KzXXMUA3gpxQQGmvhLdrevyKqKdx/CfJBhTAgON5ADb2144t5HGUERi50BgwihfW1M0JA+ArbeNmkTDgeDrzCNrgtkzkBDJJgOj8/R4zcyELiRaQ/LEkQzCzEVQOsmZlfsjmtwOxmBMlPzyy7kv8VlM9LLkKPW7JJGWwFI5btulCUg+Vrt2R18og9EoPkSkr5dM9jFtzGVV0rr0dk4BbJ4HRf6KEW0qj0hpxBvnYbhgfgKnMy1w4FN7aIp1/DmVarqafojXu3hIelWJNOq6R1k+PPb/BKIrHlt8nuBJqT/DStdDMDfIfRiCPYyFzh8Hw/kFTX7LMVWyq/mPXagR9HCIdMimjaOxsBaMs836a24p3JcyKkkej0mJTMZl/YBepS0yq231kc9fh3uTxcSpWA5YVpWCVcSXnENokXuakSaSH5c4Zn0tN89+cdeD/4+xz7bI3JvNjCaU7Z0HCf8K1Ewf0dzeJI3WrdXkD6vzkKA6wXUcLxo/z2zPUFLRauh93XDUKUYt4j3+EeU/yARZhKHHJZzE=
