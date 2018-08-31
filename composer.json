@@ -6,12 +6,14 @@
     "version": "0.1.0",
     "keywords": [
         "config",
+        "configuration",
         "php",
         "ini",
         "yaml",
         "xml",
         "json",
-        "unframework"
+        "unframework",
+        "settings"
     ],
     "authors": [
         {
