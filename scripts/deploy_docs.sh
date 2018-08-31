@@ -2,7 +2,10 @@
 
 set -o errexit
 
-if [ "$TRAVIS_PULL_REQUEST" != "false" -o "$TRAVIS_BRANCH" != "master" ]; then exit 0; fi
+if [ "$TRAVIS_PULL_REQUEST" != "false" -o "$TRAVIS_BRANCH" != "master" ]; then
+    echo "Skipped updating gh-pages, because build is not triggered from the master branch."
+    exit 0;
+fi
 
 echo "Starting to update gh-pages\n"
 
