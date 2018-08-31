@@ -22,7 +22,7 @@
     <nav class="navbar navbar-expand-sm fixed-top navbar-light bg-white docs-navbar">
     <div class="container">
         <a class="navbar-brand" href="/">
-            <img src="/assets/images/smarttly_config_logo.png" alt="Resty" style="height:50px" />
+            <img src="/assets/images/smarttly_config_logo.png" alt="Config" style="height:50px" />
         </a>
 
         <ul class="navbar-nav ml-auto ">
@@ -39,31 +39,49 @@
         <div class="row">
             <div class="col container-sidebar">
                 <ul class="sidebar list-unstyled">
-    <li><a href="#" title="Introduccion">Introduccion</a></li>
-    <li><a href="#" title="Instalacion">Instalacion</a></li>
+    <li><a href="#introduccion" title="Introduccion">Introduccion</a></li>
+    <li><a href="#funcionalidades" title="Introduccion">Funcionalidades</a></li>
+    <li><a href="#requerimientos" title="Requerimientos">Requerimientos</a></li>
+    <li><a href="#instalacion" title="Instalacion">Instalacion</a></li>
 </ul>
 
             </div>
             <div class="col">
-                <h1 id="introduccion">Introduccion</h1>
+                <h1 id="-introduccion"><a name="introduccion">#</a> Introduccion</h1>
 
-<h1 id="instalacion">Instalacion</h1>
+<p>Config es un componente que permite cargar, combinar y acceder de forma sencilla a los datos de configuracion de una aplicacion. Los mismos
+pueden pueden estar en distintos formatos, actualmente se proporciona adaptadores para cargar archivos INI, PHP y arrays de PHP.</p>
 
-<h2 id="usando-composer">Usando composer</h2>
+<h1 id="-funcionalidades"><a name="funcionalidades">#</a> Funcionalidades</h1>
 
-<p>Agregar a la sección <code class="highlighter-rouge">require</code> del archivo <code class="highlighter-rouge">composer.json</code></p>
+<ul>
+  <li>Interfaz sencilla para acceder a los valores de configuracion</li>
+  <li>Adaptadores para cargar archivos INI y PHP</li>
+  <li>Merge anidados de configuraciones</li>
+</ul>
+
+<h1 id="-requerimientos"><a name="requerimientos">#</a> Requerimientos</h1>
+
+<ul>
+  <li>PHP 7.2+.</li>
+</ul>
+
+<h1 id="-instalacion"><a name="instalacion">#</a> Instalacion</h1>
+
+<p>Via Composer, agregando en la sección <code class="highlighter-rouge">require</code> del archivo <code class="highlighter-rouge">composer.json</code></p>
 
 <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>{
     "require": {
-        "require smarttly/config": "**"
+        "smarttly/config": "*"
     }
 }
 </code></pre></div></div>
 
-<p>o correr el comando</p>
+<p>Luego correr el comando <code class="highlighter-rouge">composer update</code> para instalar el componente</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>composer require "require smarttly/config"
-</code></pre></div></div>
+<p><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
+<br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
+hola</p>
 
             </div>
         </div>

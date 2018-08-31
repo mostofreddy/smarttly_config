@@ -22,38 +22,14 @@ a:hover {
     text-decoration: none;
 }
 
-code pre {
-    background-color: #efefef;
-    padding:10px;
-}
-
+/* 3. Navbar
+ ******************************************************/
 
 .docs-navbar {
     border-bottom:1px solid #efefef
 }
 
-/* 3. Home
- ******************************************************/
-
-.home {
-    height:100%;
-    min-height:100%;
-    display: table;
-}
-
-.home div {
-    vertical-align:middle;
-    display: table-cell;
-    text-align: center;
-}
-
-.home-subtitle {
-    font-family: 'Open Sans Condensed', sans-serif;
-    font-size: 25px;
-    padding: 10px 0;
-}
-
-/* 3. Sidebar
+/* 4. Sidebar
  ******************************************************/
 
 .container-sidebar {
@@ -75,4 +51,18 @@ code pre {
 
 .sidebar ul {
     padding:10px 0 10px 20px;
+}
+
+
+
+/* 5. Code-block
+ ******************************************************/
+div.highlight {
+    background-color: #efefef;
+    padding:10px;
+    border-left:2px solid #ccc;
+}
+
+pre.highlight {
+    margin:0;
 }
