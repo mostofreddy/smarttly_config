@@ -1,0 +1,18 @@
+# Handling Reading
+encoding: "utf-8"
+
+# Conversion
+markdown: kramdown
+
+# Serving
+baseurl: "" # the subpath of your site, e.g. /blog
+
+# Outputting
+timezone: "America/Argentina/Buenos_Aires"
+defaults:
+  -
+    scope:
+      path: "" # empty string for all files
+    values:
+      layout: "page"
+      title: "Smarttly - Config"
