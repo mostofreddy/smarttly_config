@@ -92,6 +92,24 @@ class ConfigTest extends TestCase
      * @dataProvider configProvider
      * @return       void
      */
+    public function testNestedConfigDataWithGet(array $data):void
+    {
+        $config = new Config($data);
+
+        $this->assertEquals(
+            $data['database']['driver'],
+            $config->database->get('driver')
+        );
+    }
+
+    /**
+     * Test method
+     *
+     * @param array $data Config
+     *
+     * @dataProvider configProvider
+     * @return       void
+     */
     public function testGet(array $data):void
     {
         $config = new Config($data);
@@ -222,5 +240,38 @@ class ConfigTest extends TestCase
         $config1->merge($config2);
 
         $this->assertEquals($expected, $config1[1]);
+    }
+
+
+
+    /**
+     * Test method
+     *
+     * @param array $data Config
+     *
+     * @dataProvider configProvider
+     * @return       void
+     */
+    public function testMerge5(array $data):void
+    {
+        $data = [
+            'name' => 'John',
+            'lastname' => 'Doe'
+        ];
+        $config1 = new Config($data);
+
+        $data = [
+            'lastname' => 'Smith',
+            'database' => [
+                'driver' => 'mongodb'
+            ]
+        ];
+        $config2 = new Config($data);
+
+        $config1->merge($config2);
+
+        $this->assertEquals('Smith', $config1->lastname);
+        $this->assertEquals('John', $config1->name);
+        $this->assertEquals('mongodb', $config1->database->driver);
     }
 }
