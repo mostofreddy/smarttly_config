@@ -15,14 +15,14 @@
         crossorigin="anonymous">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU"
         crossorigin="anonymous">
-    <link rel="stylesheet" href="/assets/css/main.css" />
+    <link rel="stylesheet" href="assets/css/main.css" />
 </head>
 
 <body>
     <nav class="navbar navbar-expand-sm fixed-top navbar-light bg-white docs-navbar">
     <div class="container">
         <a class="navbar-brand" href="/">
-            <img src="/assets/images/smarttly_config_logo.png" alt="Config" style="height:50px" />
+            <img src="assets/images/smarttly_config_logo.png" alt="Config" style="height:50px" />
         </a>
 
         <ul class="navbar-nav ml-auto ">
@@ -43,20 +43,22 @@
     <li><a href="#funcionalidades" title="Introduccion">Funcionalidades</a></li>
     <li><a href="#requerimientos" title="Requerimientos">Requerimientos</a></li>
     <li><a href="#instalacion" title="Instalacion">Instalacion</a></li>
+    <li><a href="#uso" title="Uso">Uso</a></li>
 </ul>
 
             </div>
             <div class="col">
                 <h1 id="-introduccion"><a name="introduccion">#</a> Introduccion</h1>
 
-<p>Config es un componente que permite cargar, combinar y acceder de forma sencilla a los datos de configuracion de una aplicacion. Los mismos
-pueden pueden estar en distintos formatos, actualmente se proporciona adaptadores para cargar archivos INI, PHP y arrays de PHP.</p>
+<p>Config es un componente que permite cargar, combinar y acceder de forma sencilla a los datos de configuracion de una aplicacion.</p>
+
+<p>Los archivos de configuracion pueden estar en distintos formatos, actualmente se proporciona adaptadores para archivo JSON, PHP y arrays de PHP.</p>
 
 <h1 id="-funcionalidades"><a name="funcionalidades">#</a> Funcionalidades</h1>
 
 <ul>
   <li>Interfaz sencilla para acceder a los valores de configuracion</li>
-  <li>Adaptadores para cargar archivos INI y PHP</li>
+  <li>Adaptadores para cargar archivos JSON y PHP</li>
   <li>Merge anidados de configuraciones</li>
 </ul>
 
@@ -79,9 +81,128 @@ pueden pueden estar en distintos formatos, actualmente se proporciona adaptadore
 
 <p>Luego correr el comando <code class="highlighter-rouge">composer update</code> para instalar el componente</p>
 
-<p><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
-<br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
-hola</p>
+<h1 id="-uso"><a name="uso">#</a> Uso</h1>
+
+<p>El uso mas sencillo del componente es instanciando la clase <code class="highlighter-rouge">Config</code> pasandole un array de configuracion</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>use Smarttly\Config\Config;
+
+$defaultConfiguration = [
+    'name' =&gt; 'John',
+    'lastname' =&gt; 'Doe',
+    'database' =&gt; [
+        'driver' =&gt; 'mongodb'
+    ]
+];
+
+$config = new Config($defaultConfiguration);
+
+$config-&gt;get('name');
+// print: John
+</code></pre></div></div>
+
+<h2 id="como-acceder-a-los-valores-de-configuracion">Como acceder a los valores de configuracion</h2>
+
+<p>Para acceder a los valores de configuracion se puede realizar mediante el metodo <code class="highlighter-rouge">get</code> o a travez del nombre de la variable.</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$config-&gt;get('name');
+// print: John
+
+$config-&gt;name;
+// print: John
+</code></pre></div></div>
+
+<p><strong>Acceder a un valor del tipo array</strong></p>
+
+<p>Cuando un valor de configuracion es del tipo <code class="highlighter-rouge">array</code> automaticamente es transformado a una instancia de <code class="highlighter-rouge">Config</code> para facilitar el acceso y el merge de configuraciones</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>echo $config-&gt;get('database')-&gt;get('driver');
+// print: mongodb
+
+echo $config-&gt;database-&gt;get('driver');
+// print: mongodb
+
+echo $config-&gt;database-&gt;driver;
+// print: mongodb
+</code></pre></div></div>
+
+<h2 id="cargar-configuracion-desde-archivo">Cargar configuracion desde archivo</h2>
+
+<p>Los archivos externos pueden ser JSON o PHP</p>
+
+<h3 id="leer-archivos-json">Leer archivos JSON</h3>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>// archivo config.json
+{
+    "say": "hello"
+}
+</code></pre></div></div>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>use Smarttly\Config\Reader\Json;
+use Smarttly\Config\Config;
+
+$reader = new Json();
+$defaultConfiguration = $reader-&gt;fromFile('config.json);
+
+$config = new Config($defaultConfiguration);
+
+$config-&gt;get('say');
+// print: hello
+</code></pre></div></div>
+
+<h3 id="leer-archivos-php">Leer archivos PHP</h3>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>// archivo config.php
+<span class="cp">&lt;?php</span>
+<span class="nv">$config</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s1">'say'</span> <span class="o">=&gt;</span> <span class="s1">'hello'</span>
+<span class="p">];</span>
+<span class="k">return</span> <span class="nv">$config</span><span class="p">;</span>
+</code></pre></div></div>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>use Smarttly\Config\Reader\Php;
+use Smarttly\Config\Config;
+
+$reader = new Php();
+$defaultConfiguration = $reader-&gt;fromFile('config.php);
+
+$config = new Config($defaultConfiguration);
+
+$config-&gt;get('say');
+// print: hello
+</code></pre></div></div>
+
+<h2 id="combinar-archivos-de-configuracion">Combinar archivos de configuracion</h2>
+
+<p>Config permite combinar distintas configuraciones en una sola. Esto es muy util para dividir la configuracion en distintos archivos (uno para los logs, otro para la base de datos, etc) y tambien cuando contamos con configuraciones por defecto y particulares de un ambiente (produccion, test, development, etc)</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$data1 = [
+    'name' =&gt; 'John',
+    'lastname' =&gt; 'Doe'
+];
+$config1 = new Config($data1);
+
+$data2 = [
+    'lastname' =&gt; 'Smith',
+    'database' =&gt; [
+        'driver' =&gt; 'mongodb'
+    ]
+];
+$config2 = new Config($data2);
+
+$config1-&gt;merge($config2);
+
+echo $config1-&gt;lastname;
+// print: Smith
+
+echo $config1-&gt;name;
+// print: John
+
+echo $config1-&gt;database-&gt;driver;
+// print: mongodb
+</code></pre></div></div>
+
+<p><br /><br /></p>
 
             </div>
         </div>
