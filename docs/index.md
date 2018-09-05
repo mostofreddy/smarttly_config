@@ -9,6 +9,13 @@ Config es un componente que permite cargar, combinar y acceder de forma sencilla
 
 Los archivos de configuracion pueden estar en distintos formatos, actualmente se proporciona adaptadores para archivo JSON, PHP y arrays de PHP.
 
+[![Build Status](https://travis-ci.org/mostofreddy/smarttly_config.svg?branch=master)](https://travis-ci.org/mostofreddy/smarttly_config)
+[![Coverage Status](https://coveralls.io/repos/github/mostofreddy/smarttly_config/badge.svg?branch=master)](https://coveralls.io/github/mostofreddy/smarttly_config?branch=master)
+[![Latest Stable Version](https://poser.pugx.org/smarttly/config/v/stable)](https://packagist.org/packages/smarttly/config)
+[![Total Downloads](https://poser.pugx.org/smarttly/config/downloads)](https://packagist.org/packages/smarttly/config)
+[![License](https://poser.pugx.org/smarttly/config/license)](https://packagist.org/packages/smarttly/config)
+[![composer.lock](https://poser.pugx.org/smarttly/config/composerlock)](https://packagist.org/packages/smarttly/config)
+
 # <a name="funcionalidades">\#</a> Funcionalidades
 
 * Interfaz sencilla para acceder a los valores de configuracion
@@ -163,4 +170,34 @@ echo $config1->database->driver;
 // print: mongodb
 ```
 
-<br/><br/>
+## Cargar/ cambiar valores de configuracion
+
+```
+use Smarttly\Config\Config;
+
+$defaultConfiguration = [
+    'name' => 'John',
+    'lastname' => 'Doe',
+    'database' => [
+        'driver' => 'mongodb'
+    ]
+];
+
+$config = new Config($defaultConfiguration);
+
+$config->set('lastname', 'Smith);
+echo $config->lastname;
+// print: Smith
+```
+
+# <a name="roadmap">\#</a> Roadmap
+
+Pendientes a desarrollar
+
+* Leer configuracion desde archivios INI
+* Leer configuracion desde archivios YAML
+* Posibilidad de cargar un directorio de configuraciones automaticamente
+* Notacion por puntos para acceder a la configuracion
+* Cargar configuracion de archivo .env
+
+<br/>
