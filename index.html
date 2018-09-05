@@ -44,6 +44,7 @@
     <li><a href="#requerimientos" title="Requerimientos">Requerimientos</a></li>
     <li><a href="#instalacion" title="Instalacion">Instalacion</a></li>
     <li><a href="#uso" title="Uso">Uso</a></li>
+    <li><a href="#roadmap" title="Roadmap">Roadmap</a></li>
 </ul>
 
             </div>
@@ -53,6 +54,13 @@
 <p>Config es un componente que permite cargar, combinar y acceder de forma sencilla a los datos de configuracion de una aplicacion.</p>
 
 <p>Los archivos de configuracion pueden estar en distintos formatos, actualmente se proporciona adaptadores para archivo JSON, PHP y arrays de PHP.</p>
+
+<p><a href="https://travis-ci.org/mostofreddy/smarttly_config"><img src="https://travis-ci.org/mostofreddy/smarttly_config.svg?branch=master" alt="Build Status" /></a>
+<a href="https://coveralls.io/github/mostofreddy/smarttly_config?branch=master"><img src="https://coveralls.io/repos/github/mostofreddy/smarttly_config/badge.svg?branch=master" alt="Coverage Status" /></a>
+<a href="https://packagist.org/packages/smarttly/config"><img src="https://poser.pugx.org/smarttly/config/v/stable" alt="Latest Stable Version" /></a>
+<a href="https://packagist.org/packages/smarttly/config"><img src="https://poser.pugx.org/smarttly/config/downloads" alt="Total Downloads" /></a>
+<a href="https://packagist.org/packages/smarttly/config"><img src="https://poser.pugx.org/smarttly/config/license" alt="License" /></a>
+<a href="https://packagist.org/packages/smarttly/config"><img src="https://poser.pugx.org/smarttly/config/composerlock" alt="composer.lock" /></a></p>
 
 <h1 id="-funcionalidades"><a name="funcionalidades">#</a> Funcionalidades</h1>
 
@@ -202,7 +210,38 @@ echo $config1-&gt;database-&gt;driver;
 // print: mongodb
 </code></pre></div></div>
 
-<p><br /><br /></p>
+<h2 id="cargar-cambiar-valores-de-configuracion">Cargar/ cambiar valores de configuracion</h2>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>use Smarttly\Config\Config;
+
+$defaultConfiguration = [
+    'name' =&gt; 'John',
+    'lastname' =&gt; 'Doe',
+    'database' =&gt; [
+        'driver' =&gt; 'mongodb'
+    ]
+];
+
+$config = new Config($defaultConfiguration);
+
+$config-&gt;set('lastname', 'Smith);
+echo $config-&gt;lastname;
+// print: Smith
+</code></pre></div></div>
+
+<h1 id="-roadmap"><a name="roadmap">#</a> Roadmap</h1>
+
+<p>Pendientes a desarrollar</p>
+
+<ul>
+  <li>Leer configuracion desde archivios INI</li>
+  <li>Leer configuracion desde archivios YAML</li>
+  <li>Posibilidad de cargar un directorio de configuraciones automaticamente</li>
+  <li>Notacion por puntos para acceder a la configuracion</li>
+  <li>Cargar configuracion de archivo .env</li>
+</ul>
+
+<p><br /></p>
 
             </div>
         </div>
