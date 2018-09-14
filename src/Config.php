@@ -77,6 +77,24 @@ class Config implements Countable, Iterator, ArrayAccess
     }
 
     /**
+     * Set new value in configuration
+     *
+     * @param mixed $key   Config name
+     * @param mixed $value Config value
+     *
+     * @return self
+     */
+    public function set($key, $value): self
+    {
+        if (is_null($key)) {
+            $this->data[] = is_array($value) ? new static($value) : $value;
+        } else {
+            $this->data[$key] = is_array($value) ? new static($value) : $value;
+        }
+        return $this;
+    }
+
+    /**
      * Merge config
      *
      * @param Config $config Config instance
@@ -126,13 +144,7 @@ class Config implements Countable, Iterator, ArrayAccess
      */
     public function __set($key, $value)
     {
-        if (is_array($value)) {
-            $this->data[$key] = new static($value);
-        } else if (is_null($key)) {
-            $this->data[] = $value;
-        } else {
-            $this->data[$key] = $value;
-        }
+        return $this->set($key, $value);
     }
 
     /**
