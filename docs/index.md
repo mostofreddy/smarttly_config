@@ -3,11 +3,13 @@ layout: page
 permalink: index.html
 ---
 
-# <a name="introduccion">\#</a> Introduccion
+# <a name="introduccion"></a> Introduccion
 
 Config es un componente que permite cargar, combinar y acceder de forma sencilla a los datos de configuracion de una aplicacion.
 
 Los archivos de configuracion pueden estar en distintos formatos, actualmente se proporciona adaptadores para archivo JSON, PHP y arrays de PHP.
+
+<br />
 
 [![Build Status](https://travis-ci.org/mostofreddy/smarttly_config.svg?branch=master)](https://travis-ci.org/mostofreddy/smarttly_config)
 [![Coverage Status](https://coveralls.io/repos/github/mostofreddy/smarttly_config/badge.svg?branch=master)](https://coveralls.io/github/mostofreddy/smarttly_config?branch=master)
@@ -16,21 +18,27 @@ Los archivos de configuracion pueden estar en distintos formatos, actualmente se
 [![License](https://poser.pugx.org/smarttly/config/license)](https://packagist.org/packages/smarttly/config)
 [![composer.lock](https://poser.pugx.org/smarttly/config/composerlock)](https://packagist.org/packages/smarttly/config)
 
-# <a name="funcionalidades">\#</a> Funcionalidades
+-- ---
+
+# <a name="funcionalidades"></a> Funcionalidades
 
 * Interfaz sencilla para acceder a los valores de configuracion
 * Adaptadores para cargar archivos JSON y PHP
 * Merge anidados de configuraciones
 
-# <a name="requerimientos">\#</a> Requerimientos
+-- ---
+
+# <a name="requerimientos"></a> Requerimientos
 
 * PHP 7.2+.
 
-# <a name="instalacion">\#</a> Instalacion
+-- ---
+
+# <a name="instalacion"></a> Instalacion
 
 Via Composer, agregando en la sección `require` del archivo `composer.json`
 
-```
+```json
 {
     "require": {
         "smarttly/config": "*"
@@ -40,12 +48,13 @@ Via Composer, agregando en la sección `require` del archivo `composer.json`
 
 Luego correr el comando `composer update` para instalar el componente
 
+-- ---
 
-# <a name="uso">\#</a> Uso
+# <a name="uso"></a> Uso
 
 El uso mas sencillo del componente es instanciando la clase `Config` pasandole un array de configuracion
 
-```
+```php
 use Smarttly\Config\Config;
 
 $defaultConfiguration = [
@@ -62,11 +71,11 @@ $config->get('name');
 // print: John
 ```
 
-## Como acceder a los valores de configuracion
+## <span class="numeral">\#</span> Como acceder a los valores de configuracion
 
 Para acceder a los valores de configuracion se puede realizar mediante el metodo `get` o a travez del nombre de la variable.
 
-```
+```php
 $config->get('name');
 // print: John
 
@@ -74,11 +83,11 @@ $config->name;
 // print: John
 ```
 
-**Acceder a un valor del tipo array**
+### \- Acceder a valores aniddados
 
 Cuando un valor de configuracion es del tipo `array` automaticamente es transformado a una instancia de `Config` para facilitar el acceso y el merge de configuraciones
 
-```
+```php
 echo $config->get('database')->get('driver');
 // print: mongodb
 
@@ -89,20 +98,20 @@ echo $config->database->driver;
 // print: mongodb
 ```
 
-## Cargar configuracion desde archivo
+## <span class="numeral">\#</span>  Cargar configuracion desde archivo
 
 Los archivos externos pueden ser JSON o PHP
 
-### Leer archivos JSON
+### \- Leer archivos JSON
 
-```
-// archivo config.json
+```json
+// config.json
 {
     "say": "hello"
 }
 ```
 
-```
+```php
 use Smarttly\Config\Reader\Json;
 use Smarttly\Config\Config;
 
@@ -115,18 +124,17 @@ $config->get('say');
 // print: hello
 ```
 
-### Leer archivos PHP
+### \- Leer archivos PHP
 
-```
-// archivo config.php
-<?php
+```php
+// config.php
 $config = [
     'say' => 'hello'
 ];
 return $config;
 ```
 
-```
+```php
 use Smarttly\Config\Reader\Php;
 use Smarttly\Config\Config;
 
@@ -139,11 +147,11 @@ $config->get('say');
 // print: hello
 ```
 
-## Combinar archivos de configuracion
+## <span class="numeral">\#</span> Combinar archivos de configuracion
 
 Config permite combinar distintas configuraciones en una sola. Esto es muy util para dividir la configuracion en distintos archivos (uno para los logs, otro para la base de datos, etc) y tambien cuando contamos con configuraciones por defecto y particulares de un ambiente (produccion, test, development, etc)
 
-```
+```php
 $data1 = [
     'name' => 'John',
     'lastname' => 'Doe'
@@ -170,9 +178,9 @@ echo $config1->database->driver;
 // print: mongodb
 ```
 
-## Cargar/ cambiar valores de configuracion
+## <span class="numeral">\#</span> Cargar/ cambiar valores de configuracion
 
-```
+```php
 use Smarttly\Config\Config;
 
 $defaultConfiguration = [
@@ -190,14 +198,17 @@ echo $config->lastname;
 // print: Smith
 ```
 
-# <a name="roadmap">\#</a> Roadmap
+-- ---
+
+# <a name="roadmap"></a> Roadmap
 
 Pendientes a desarrollar
 
 * Leer configuracion desde archivios INI
 * Leer configuracion desde archivios YAML
+* Leer configuracion desde archivo .env
 * Posibilidad de cargar un directorio de configuraciones automaticamente
-* Notacion por puntos para acceder a la configuracion
-* Cargar configuracion de archivo .env
+* Notacion por puntos para acceder a configuraciones
+* Cache
 
 <br/>
