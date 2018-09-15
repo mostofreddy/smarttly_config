@@ -15,4 +15,4 @@ defaults:
       path: "" # empty string for all files
     values:
       layout: "page"
-      title: "Smarttly - Config"
+      title: "Config | Smarttly component"
