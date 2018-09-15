@@ -19,8 +19,8 @@
 </head>
 
 <body>
-    <nav class="navbar navbar-expand-sm fixed-top navbar-light bg-white docs-navbar">
-    <div class="container">
+    <nav class="navbar navbar-expand-sm navbar-light bg-white docs-navbar">
+    <div class="container-fluid">
         <a class="navbar-brand" href="/">
             <img src="assets/images/smarttly_config_logo.png" alt="Config" style="height:50px" />
         </a>
@@ -33,9 +33,8 @@
     </div>
 </nav>
 
-    <br/><br/><br/><br/>
 
-    <div class="container">
+    <div class="container-fluid">
         <div class="row">
             <div class="col container-sidebar">
                 <ul class="sidebar list-unstyled">
@@ -48,12 +47,14 @@
 </ul>
 
             </div>
-            <div class="col">
-                <h1 id="-introduccion"><a name="introduccion">#</a> Introduccion</h1>
+            <div class="col container-body">
+                <h1 id="-introduccion"><a name="introduccion"></a> Introduccion</h1>
 
 <p>Config es un componente que permite cargar, combinar y acceder de forma sencilla a los datos de configuracion de una aplicacion.</p>
 
 <p>Los archivos de configuracion pueden estar en distintos formatos, actualmente se proporciona adaptadores para archivo JSON, PHP y arrays de PHP.</p>
+
+<p><br /></p>
 
 <p><a href="https://travis-ci.org/mostofreddy/smarttly_config"><img src="https://travis-ci.org/mostofreddy/smarttly_config.svg?branch=master" alt="Build Status" /></a>
 <a href="https://coveralls.io/github/mostofreddy/smarttly_config?branch=master"><img src="https://coveralls.io/repos/github/mostofreddy/smarttly_config/badge.svg?branch=master" alt="Coverage Status" /></a>
@@ -62,7 +63,9 @@
 <a href="https://packagist.org/packages/smarttly/config"><img src="https://poser.pugx.org/smarttly/config/license" alt="License" /></a>
 <a href="https://packagist.org/packages/smarttly/config"><img src="https://poser.pugx.org/smarttly/config/composerlock" alt="composer.lock" /></a></p>
 
-<h1 id="-funcionalidades"><a name="funcionalidades">#</a> Funcionalidades</h1>
+<hr />
+
+<h1 id="-funcionalidades"><a name="funcionalidades"></a> Funcionalidades</h1>
 
 <ul>
   <li>Interfaz sencilla para acceder a los valores de configuracion</li>
@@ -70,175 +73,183 @@
   <li>Merge anidados de configuraciones</li>
 </ul>
 
-<h1 id="-requerimientos"><a name="requerimientos">#</a> Requerimientos</h1>
+<hr />
+
+<h1 id="-requerimientos"><a name="requerimientos"></a> Requerimientos</h1>
 
 <ul>
   <li>PHP 7.2+.</li>
 </ul>
 
-<h1 id="-instalacion"><a name="instalacion">#</a> Instalacion</h1>
+<hr />
+
+<h1 id="-instalacion"><a name="instalacion"></a> Instalacion</h1>
 
 <p>Via Composer, agregando en la sección <code class="highlighter-rouge">require</code> del archivo <code class="highlighter-rouge">composer.json</code></p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>{
-    "require": {
-        "smarttly/config": "*"
-    }
-}
-</code></pre></div></div>
+<div class="language-json highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">{</span><span class="w">
+    </span><span class="s2">"require"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="s2">"smarttly/config"</span><span class="p">:</span><span class="w"> </span><span class="s2">"*"</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div></div>
 
 <p>Luego correr el comando <code class="highlighter-rouge">composer update</code> para instalar el componente</p>
 
-<h1 id="-uso"><a name="uso">#</a> Uso</h1>
+<hr />
+
+<h1 id="-uso"><a name="uso"></a> Uso</h1>
 
 <p>El uso mas sencillo del componente es instanciando la clase <code class="highlighter-rouge">Config</code> pasandole un array de configuracion</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>use Smarttly\Config\Config;
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">use</span> <span class="nx">Smarttly\Config\Config</span><span class="p">;</span>
 
-$defaultConfiguration = [
-    'name' =&gt; 'John',
-    'lastname' =&gt; 'Doe',
-    'database' =&gt; [
-        'driver' =&gt; 'mongodb'
-    ]
-];
+<span class="nv">$defaultConfiguration</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s1">'name'</span> <span class="o">=&gt;</span> <span class="s1">'John'</span><span class="p">,</span>
+    <span class="s1">'lastname'</span> <span class="o">=&gt;</span> <span class="s1">'Doe'</span><span class="p">,</span>
+    <span class="s1">'database'</span> <span class="o">=&gt;</span> <span class="p">[</span>
+        <span class="s1">'driver'</span> <span class="o">=&gt;</span> <span class="s1">'mongodb'</span>
+    <span class="p">]</span>
+<span class="p">];</span>
 
-$config = new Config($defaultConfiguration);
+<span class="nv">$config</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Config</span><span class="p">(</span><span class="nv">$defaultConfiguration</span><span class="p">);</span>
 
-$config-&gt;get('name');
-// print: John
+<span class="nv">$config</span><span class="o">-&gt;</span><span class="na">get</span><span class="p">(</span><span class="s1">'name'</span><span class="p">);</span>
+<span class="c1">// print: John</span>
 </code></pre></div></div>
 
-<h2 id="como-acceder-a-los-valores-de-configuracion">Como acceder a los valores de configuracion</h2>
+<h2 id="-como-acceder-a-los-valores-de-configuracion"><span class="numeral">#</span> Como acceder a los valores de configuracion</h2>
 
 <p>Para acceder a los valores de configuracion se puede realizar mediante el metodo <code class="highlighter-rouge">get</code> o a travez del nombre de la variable.</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$config-&gt;get('name');
-// print: John
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$config</span><span class="o">-&gt;</span><span class="na">get</span><span class="p">(</span><span class="s1">'name'</span><span class="p">);</span>
+<span class="c1">// print: John</span>
 
-$config-&gt;name;
-// print: John
+<span class="nv">$config</span><span class="o">-&gt;</span><span class="na">name</span><span class="p">;</span>
+<span class="c1">// print: John</span>
 </code></pre></div></div>
 
-<p><strong>Acceder a un valor del tipo array</strong></p>
+<h3 id="--acceder-a-valores-aniddados">- Acceder a valores aniddados</h3>
 
 <p>Cuando un valor de configuracion es del tipo <code class="highlighter-rouge">array</code> automaticamente es transformado a una instancia de <code class="highlighter-rouge">Config</code> para facilitar el acceso y el merge de configuraciones</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>echo $config-&gt;get('database')-&gt;get('driver');
-// print: mongodb
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">echo</span> <span class="nv">$config</span><span class="o">-&gt;</span><span class="na">get</span><span class="p">(</span><span class="s1">'database'</span><span class="p">)</span><span class="o">-&gt;</span><span class="na">get</span><span class="p">(</span><span class="s1">'driver'</span><span class="p">);</span>
+<span class="c1">// print: mongodb</span>
 
-echo $config-&gt;database-&gt;get('driver');
-// print: mongodb
+<span class="k">echo</span> <span class="nv">$config</span><span class="o">-&gt;</span><span class="na">database</span><span class="o">-&gt;</span><span class="na">get</span><span class="p">(</span><span class="s1">'driver'</span><span class="p">);</span>
+<span class="c1">// print: mongodb</span>
 
-echo $config-&gt;database-&gt;driver;
-// print: mongodb
+<span class="k">echo</span> <span class="nv">$config</span><span class="o">-&gt;</span><span class="na">database</span><span class="o">-&gt;</span><span class="na">driver</span><span class="p">;</span>
+<span class="c1">// print: mongodb</span>
 </code></pre></div></div>
 
-<h2 id="cargar-configuracion-desde-archivo">Cargar configuracion desde archivo</h2>
+<h2 id="--cargar-configuracion-desde-archivo"><span class="numeral">#</span>  Cargar configuracion desde archivo</h2>
 
 <p>Los archivos externos pueden ser JSON o PHP</p>
 
-<h3 id="leer-archivos-json">Leer archivos JSON</h3>
+<h3 id="--leer-archivos-json">- Leer archivos JSON</h3>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>// archivo config.json
-{
-    "say": "hello"
-}
-</code></pre></div></div>
+<div class="language-json highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="err">//</span><span class="w"> </span><span class="err">config.json</span><span class="w">
+</span><span class="p">{</span><span class="w">
+    </span><span class="s2">"say"</span><span class="p">:</span><span class="w"> </span><span class="s2">"hello"</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div></div>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>use Smarttly\Config\Reader\Json;
-use Smarttly\Config\Config;
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">use</span> <span class="nx">Smarttly\Config\Reader\Json</span><span class="p">;</span>
+<span class="k">use</span> <span class="nx">Smarttly\Config\Config</span><span class="p">;</span>
 
-$reader = new Json();
-$defaultConfiguration = $reader-&gt;fromFile('config.json);
+<span class="nv">$reader</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Json</span><span class="p">();</span>
+<span class="nv">$defaultConfiguration</span> <span class="o">=</span> <span class="nv">$reader</span><span class="o">-&gt;</span><span class="na">fromFile</span><span class="p">(</span><span class="s1">'config.json);
 
 $config = new Config($defaultConfiguration);
 
-$config-&gt;get('say');
-// print: hello
+$config-&gt;get('</span><span class="nx">say</span><span class="err">'</span><span class="p">);</span>
+<span class="c1">// print: hello</span>
 </code></pre></div></div>
 
-<h3 id="leer-archivos-php">Leer archivos PHP</h3>
+<h3 id="--leer-archivos-php">- Leer archivos PHP</h3>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>// archivo config.php
-<span class="cp">&lt;?php</span>
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// config.php</span>
 <span class="nv">$config</span> <span class="o">=</span> <span class="p">[</span>
     <span class="s1">'say'</span> <span class="o">=&gt;</span> <span class="s1">'hello'</span>
 <span class="p">];</span>
 <span class="k">return</span> <span class="nv">$config</span><span class="p">;</span>
 </code></pre></div></div>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>use Smarttly\Config\Reader\Php;
-use Smarttly\Config\Config;
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">use</span> <span class="nx">Smarttly\Config\Reader\Php</span><span class="p">;</span>
+<span class="k">use</span> <span class="nx">Smarttly\Config\Config</span><span class="p">;</span>
 
-$reader = new Php();
-$defaultConfiguration = $reader-&gt;fromFile('config.php);
+<span class="nv">$reader</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Php</span><span class="p">();</span>
+<span class="nv">$defaultConfiguration</span> <span class="o">=</span> <span class="nv">$reader</span><span class="o">-&gt;</span><span class="na">fromFile</span><span class="p">(</span><span class="s1">'config.php);
 
 $config = new Config($defaultConfiguration);
 
-$config-&gt;get('say');
-// print: hello
+$config-&gt;get('</span><span class="nx">say</span><span class="err">'</span><span class="p">);</span>
+<span class="c1">// print: hello</span>
 </code></pre></div></div>
 
-<h2 id="combinar-archivos-de-configuracion">Combinar archivos de configuracion</h2>
+<h2 id="-combinar-archivos-de-configuracion"><span class="numeral">#</span> Combinar archivos de configuracion</h2>
 
 <p>Config permite combinar distintas configuraciones en una sola. Esto es muy util para dividir la configuracion en distintos archivos (uno para los logs, otro para la base de datos, etc) y tambien cuando contamos con configuraciones por defecto y particulares de un ambiente (produccion, test, development, etc)</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$data1 = [
-    'name' =&gt; 'John',
-    'lastname' =&gt; 'Doe'
-];
-$config1 = new Config($data1);
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$data1</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s1">'name'</span> <span class="o">=&gt;</span> <span class="s1">'John'</span><span class="p">,</span>
+    <span class="s1">'lastname'</span> <span class="o">=&gt;</span> <span class="s1">'Doe'</span>
+<span class="p">];</span>
+<span class="nv">$config1</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Config</span><span class="p">(</span><span class="nv">$data1</span><span class="p">);</span>
 
-$data2 = [
-    'lastname' =&gt; 'Smith',
-    'database' =&gt; [
-        'driver' =&gt; 'mongodb'
-    ]
-];
-$config2 = new Config($data2);
+<span class="nv">$data2</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s1">'lastname'</span> <span class="o">=&gt;</span> <span class="s1">'Smith'</span><span class="p">,</span>
+    <span class="s1">'database'</span> <span class="o">=&gt;</span> <span class="p">[</span>
+        <span class="s1">'driver'</span> <span class="o">=&gt;</span> <span class="s1">'mongodb'</span>
+    <span class="p">]</span>
+<span class="p">];</span>
+<span class="nv">$config2</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Config</span><span class="p">(</span><span class="nv">$data2</span><span class="p">);</span>
 
-$config1-&gt;merge($config2);
+<span class="nv">$config1</span><span class="o">-&gt;</span><span class="na">merge</span><span class="p">(</span><span class="nv">$config2</span><span class="p">);</span>
 
-echo $config1-&gt;lastname;
-// print: Smith
+<span class="k">echo</span> <span class="nv">$config1</span><span class="o">-&gt;</span><span class="na">lastname</span><span class="p">;</span>
+<span class="c1">// print: Smith</span>
 
-echo $config1-&gt;name;
-// print: John
+<span class="k">echo</span> <span class="nv">$config1</span><span class="o">-&gt;</span><span class="na">name</span><span class="p">;</span>
+<span class="c1">// print: John</span>
 
-echo $config1-&gt;database-&gt;driver;
-// print: mongodb
+<span class="k">echo</span> <span class="nv">$config1</span><span class="o">-&gt;</span><span class="na">database</span><span class="o">-&gt;</span><span class="na">driver</span><span class="p">;</span>
+<span class="c1">// print: mongodb</span>
 </code></pre></div></div>
 
-<h2 id="cargar-cambiar-valores-de-configuracion">Cargar/ cambiar valores de configuracion</h2>
+<h2 id="-cargar-cambiar-valores-de-configuracion"><span class="numeral">#</span> Cargar/ cambiar valores de configuracion</h2>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>use Smarttly\Config\Config;
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">use</span> <span class="nx">Smarttly\Config\Config</span><span class="p">;</span>
 
-$defaultConfiguration = [
-    'name' =&gt; 'John',
-    'lastname' =&gt; 'Doe',
-    'database' =&gt; [
-        'driver' =&gt; 'mongodb'
-    ]
-];
+<span class="nv">$defaultConfiguration</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s1">'name'</span> <span class="o">=&gt;</span> <span class="s1">'John'</span><span class="p">,</span>
+    <span class="s1">'lastname'</span> <span class="o">=&gt;</span> <span class="s1">'Doe'</span><span class="p">,</span>
+    <span class="s1">'database'</span> <span class="o">=&gt;</span> <span class="p">[</span>
+        <span class="s1">'driver'</span> <span class="o">=&gt;</span> <span class="s1">'mongodb'</span>
+    <span class="p">]</span>
+<span class="p">];</span>
 
-$config = new Config($defaultConfiguration);
+<span class="nv">$config</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Config</span><span class="p">(</span><span class="nv">$defaultConfiguration</span><span class="p">);</span>
 
-$config-&gt;set('lastname', 'Smith);
-echo $config-&gt;lastname;
-// print: Smith
+<span class="nv">$config</span><span class="o">-&gt;</span><span class="na">set</span><span class="p">(</span><span class="s1">'lastname'</span><span class="p">,</span> <span class="err">'</span><span class="nx">Smith</span><span class="p">);</span>
+<span class="k">echo</span> <span class="nv">$config</span><span class="o">-&gt;</span><span class="na">lastname</span><span class="p">;</span>
+<span class="c1">// print: Smith</span>
 </code></pre></div></div>
 
-<h1 id="-roadmap"><a name="roadmap">#</a> Roadmap</h1>
+<hr />
+
+<h1 id="-roadmap"><a name="roadmap"></a> Roadmap</h1>
 
 <p>Pendientes a desarrollar</p>
 
 <ul>
   <li>Leer configuracion desde archivios INI</li>
   <li>Leer configuracion desde archivios YAML</li>
+  <li>Leer configuracion desde archivo .env</li>
   <li>Posibilidad de cargar un directorio de configuraciones automaticamente</li>
-  <li>Notacion por puntos para acceder a la configuracion</li>
-  <li>Cargar configuracion de archivo .env</li>
+  <li>Notacion por puntos para acceder a configuraciones</li>
+  <li>Cache</li>
 </ul>
 
 <p><br /></p>

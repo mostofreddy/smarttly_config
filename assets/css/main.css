@@ -1,6 +1,9 @@
 /* 1. Import fonts
  ******************************************************/
+/*
 @import url('https://fonts.googleapis.com/css?family=Open+Sans|Open+Sans+Condensed:300|Roboto');
+*/
+@import url('https://fonts.googleapis.com/css?family=Open+Sans|Open+Sans+Condensed:300|Roboto|Roboto+Mono|Ubuntu+Mono');
 
 /* 2. Html
  ******************************************************/
@@ -9,11 +12,12 @@ html, body {
     min-width: 100%;
     height:100%;
     width: 100%;
+    font-family: 'Open Sans', sans-serif;
 }
 
 html, body, a, span, strong, div, p
-h1, h2, h3, h4, h5, h6 {
-    font-family: 'Roboto', sans-serif;
+h1, h2, h3, h4, h5, h6, ul, li {
+    font-family: 'Open Sans', sans-serif;
     color: #666
 }
 
@@ -22,47 +26,93 @@ a:hover {
     text-decoration: none;
 }
 
+h1 {
+    border-left: 1px solid #ff6600;
+    padding:5px 0 5px 15px;
+    margin:25px 0;
+    font-family: 'Open Sans Condensed', sans-serif;
+    font-size: 3.5rem;
+}
+
+h2 {
+    font-family: 'Open Sans Condensed', sans-serif;
+    font-size: 2rem;
+    padding:5px 0 5px 0;
+}
+
+h3 {
+    font-family: 'Open Sans Condensed', sans-serif;
+    padding:5px 0 5px 0;
+}
+
+p, div, li {
+    line-height: 40px;
+    font-size: 18px;
+    padding: 0;
+    margin:0;
+}
+
+hr {
+    font-weight: bold;
+    border-top: 2px dashed rgba(0,0,0,.1);
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+}
+
 /* 3. Navbar
  ******************************************************/
 
 .docs-navbar {
-    border-bottom:1px solid #efefef
+    border-bottom:1px solid #efefef;
 }
 
 /* 4. Sidebar
  ******************************************************/
 
 .container-sidebar {
-    max-width: 180px;
-    width: 180px;
+    max-width: 250px;
+    min-height: 100%;
+    background-color: #f4f5f7;
+    border-right: 1px solid #dee2e6;
+    padding-top: 20px;
 }
 
-.sidebar {
-    border-right: 1px solid #efefef;
+.sidebar li a  {
+    line-height: 50px;
+    padding-left:5px;
 }
 
-.sidebar li {
-    line-height: 30px;
+/* 5. container body
+ ******************************************************/
+.container-body {
+    padding-top: 10px;
+    padding-left:30px;
+    padding-right: 50px;
 }
 
-.sidebar .sidebar-title-section {
-    text-transform: uppercase;
-}
-
-.sidebar ul {
-    padding:10px 0 10px 20px;
+.numeral {
+    color:#ff6600;
 }
 
 
-
-/* 5. Code-block
+/* 6. Code-block
  ******************************************************/
 div.highlight {
     background-color: #efefef;
     padding:10px;
-    border-left:2px solid #ccc;
+    border:1px solid #efefef;
+    border-radius: 5px;
+    margin:15px 0;
+    line-height:20px;
 }
 
 pre.highlight {
     margin:0;
+    font-family: 'Ubuntu Mono', monospace;
+    font-size:16px;
+}
+
+pre.highlight code,
+pre.highlight code span {
+    font-family: 'Ubuntu Mono', monospace;
 }
