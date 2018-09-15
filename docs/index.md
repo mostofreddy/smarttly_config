@@ -9,8 +9,6 @@ Config es un componente que permite cargar, combinar y acceder de forma sencilla
 
 Los archivos de configuracion pueden estar en distintos formatos, actualmente se proporciona adaptadores para archivo JSON, PHP y arrays de PHP.
 
-<br />
-
 [![Build Status](https://travis-ci.org/mostofreddy/smarttly_config.svg?branch=master)](https://travis-ci.org/mostofreddy/smarttly_config)
 [![Coverage Status](https://coveralls.io/repos/github/mostofreddy/smarttly_config/badge.svg?branch=master)](https://coveralls.io/github/mostofreddy/smarttly_config?branch=master)
 [![Latest Stable Version](https://poser.pugx.org/smarttly/config/v/stable)](https://packagist.org/packages/smarttly/config)
