@@ -23,7 +23,7 @@
         }
     ],
     "require": {
-        "php": ">=7.2.0"
+        "php": ">=7.0.0"
     },
     "require-dev": {
         "phpunit/phpunit": "7.3.*",
@@ -42,13 +42,17 @@
         }
     },
     "scripts": {
-        "test": [
-            "phpunit",
-            "phpcs  --standard=ruleset.xml"
-        ]
+        "ci": [
+            "@phpunit",
+            "@phpcs"
+        ],
+        "phpunit": "phpunit",
+        "phpcs": "phpcs  --standard=ruleset.xml"
     },
     "scripts-descriptions": {
-        "test": "Run all tests!"
+        "ci": "Run integration",
+        "phpunit": "Run unit testing",
+        "phpcs": "Check coding standard"
     },
     "config": {
         "sort-packages": true,
