@@ -1,5 +1,7 @@
 language: php
 php:
+  - 7.0
+  - 7.1
   - 7.2
 before_script:
   - composer self-update
@@ -12,7 +14,7 @@ script:
   - php vendor/bin/phpcs --standard=ruleset.xml
 after_success:
   - travis_retry php vendor/bin/php-coveralls -v
-  - sh scripts/deploy_docs.sh
+  - sh deploy/deploy_docs.sh
 env:
   global:
     - GITHUB_REPO: mostofreddy/smarttly_config

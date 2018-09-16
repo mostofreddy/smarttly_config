@@ -1,5 +1,11 @@
 #! /bin/bash
 
+####################################################################
+#                                                                  #
+# Generation of documentation and automatic deployment             #
+#                                                                  #
+####################################################################
+
 set -o errexit
 
 if [ "$TRAVIS_PULL_REQUEST" != "false" -o "$TRAVIS_BRANCH" != "master" ]; then
