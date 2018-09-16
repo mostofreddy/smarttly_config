@@ -6,7 +6,6 @@ php:
 before_script:
   - composer self-update
   - composer install
-  - composer show
   - cp ruleset.xml.dist ruleset.xml
   - gem install jekyll
 script:

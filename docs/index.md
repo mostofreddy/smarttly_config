@@ -28,7 +28,7 @@ Los archivos de configuracion pueden estar en distintos formatos, actualmente se
 
 # <a name="requerimientos"></a> Requerimientos
 
-* PHP 7.2+.
+* PHP 7.0+.
 
 -- ---
 
