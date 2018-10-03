@@ -95,6 +95,18 @@ class Config implements Countable, Iterator, ArrayAccess
     }
 
     /**
+     * Checks for a key
+     *
+     * @param string $name Config name
+     *
+     * @return boolean
+     */
+    public function has(string $name): bool
+    {
+        return array_key_exists($name, $this->data);
+    }
+
+    /**
      * Merge config
      *
      * @param Config $config Config instance
@@ -116,6 +128,16 @@ class Config implements Countable, Iterator, ArrayAccess
                 $this->data[$key] = $value;
             }
         }
+    }
+
+    /**
+     * Transform data to array
+     *
+     * @return array
+     */
+    public function toArray():array
+    {
+        return $this->data;
     }
 
     /*************************************************

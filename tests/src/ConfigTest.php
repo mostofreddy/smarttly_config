@@ -242,8 +242,6 @@ class ConfigTest extends TestCase
         $this->assertEquals($expected, $config1[1]);
     }
 
-
-
     /**
      * Test method
      *
@@ -273,5 +271,49 @@ class ConfigTest extends TestCase
         $this->assertEquals('Smith', $config1->lastname);
         $this->assertEquals('John', $config1->name);
         $this->assertEquals('mongodb', $config1->database->driver);
+    }
+
+    /**
+     * Test method
+     *
+     * @return void
+     */
+    public function testHasTrue():void
+    {
+        $data = [
+            'name' => 'John',
+            'lastname' => 'Doe'
+        ];
+        $config = new Config($data);
+
+        $this->assertTrue($config->has('lastname'));
+    }
+
+    /**
+     * Test method
+     *
+     * @return void
+     */
+    public function testHasFalse():void
+    {
+        $config = new Config([]);
+
+        $this->assertFalse($config->has('lastname'));
+    }
+
+    /**
+     * Test method
+     *
+     * @return void
+     */
+    public function testToArray():void
+    {
+        $expected = [
+            'name' => 'John',
+            'lastname' => 'Doe'
+        ];
+        $config = new Config($expected);
+
+        $this->assertEquals($expected, $config->toArray());
     }
 }
