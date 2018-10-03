@@ -137,7 +137,18 @@ class Config implements Countable, Iterator, ArrayAccess
      */
     public function toArray():array
     {
-        return $this->data;
+        $array = [];
+        foreach ($this->data as $key => $value) {
+            if ($value instanceof self) {
+                $array[$key] = $value->toArray();
+            } elseif (is_callable($value)) {
+                $array[$key] = 'Callable function';
+            } else {
+                $array[$key] = $value;
+            }
+        }
+
+        return $array;
     }
 
     /*************************************************

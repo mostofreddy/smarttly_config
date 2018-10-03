@@ -277,6 +277,111 @@ TXT;
      *
      * @return void
      */
+    public function testCreateV3()
+    {
+        $contentPhp1 = <<<TXT
+<?php
+
+\$config = [
+    'say' => 'hello',
+    'lastName' => 'Doe'
+];
+return \$config;
+TXT;
+
+        $contentPhp2 = <<<TXT
+<?php
+
+\$config = [
+    'lastName' => 'Smith',
+    'name' => 'John'
+];
+return \$config;
+TXT;
+
+        $files = [
+            $this->generateTmpFile($contentPhp1, 'php'),
+            $this->generateTmpFile($contentPhp2, 'php')
+        ];
+
+        $config = (ConfigFactory::create($files[0], $files[1]))
+            ->getConfig();
+
+        $this->unlinkFile($files[0]);
+        $this->unlinkFile($files[1]);
+
+        $this->assertAttributeEquals(
+            [
+                'say' => 'hello',
+                'lastName' => 'Smith',
+                'name' => 'John'
+            ],
+            'data',
+            $config
+        );
+    }
+
+    /**
+     * Test method
+     *
+     * @return void
+     */
+    public function testCreateV4()
+    {
+        $contentPhp1 = <<<TXT
+<?php
+
+\$config = [
+    'say' => 'hello',
+    'lastName' => 'Doe'
+];
+return \$config;
+TXT;
+
+        $contentPhp2 = <<<TXT
+<?php
+
+\$config = [
+    'lastName' => 'Smith',
+    'name' => 'John'
+];
+return \$config;
+TXT;
+
+        $files = [
+            $this->generateTmpFile($contentPhp1, 'php'),
+            $this->generateTmpFile($contentPhp2, 'php')
+        ];
+
+        //$config = (ConfigFactory::create($files[0], $files[1]))
+        //    ->getConfig();
+
+        $factory = ConfigFactory::create();
+        $config = $factory->loadFiles(...$files)
+            ->getConfig();
+
+        $this->unlinkFile($files[0]);
+        $this->unlinkFile($files[1]);
+
+        $this->assertAttributeEquals(
+            [
+                'say' => 'hello',
+                'lastName' => 'Smith',
+                'name' => 'John'
+            ],
+            'data',
+            $config
+        );
+    }
+
+
+
+
+    /**
+     * Test method
+     *
+     * @return void
+     */
     public function testCreateEmpty()
     {
         $config = (ConfigFactory::create())
