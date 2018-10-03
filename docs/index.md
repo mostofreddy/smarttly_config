@@ -20,9 +20,19 @@ Los archivos de configuracion pueden estar en distintos formatos, actualmente se
 
 # <a name="funcionalidades"></a> Funcionalidades
 
+## [1.1.0]
+
+* Metodo has() en clase Config
+* Metodo toArray() en clase Config
+
+## [1.0.0]
+
 * Interfaz sencilla para acceder a los valores de configuracion
 * Adaptadores para cargar archivos JSON y PHP
 * Merge anidados de configuraciones
+* Acceso a la configuracion mediante formato array (ArrayAccess interface)
+* Acceso a la configuracion mediente formato iterator (Iterator interface)
+* Clase ConfigFactory para instanciar Config cargando los archivos de configuraicon de un directorio
 
 -- ---
 
@@ -39,18 +49,18 @@ Via Composer, agregando en la sección `require` del archivo `composer.json`
 ```json
 {
     "require": {
-        "smarttly/config": "1.0.*"
+        "smarttly/config": "1.1.*"
     }
 }
 ```
 
-Luego correr el comando `composer update` para instalar el componente
+Luego correr el comando `composer install` o `composer update` para instalar el componente
 
 -- ---
 
 # <a name="uso"></a> Uso
 
-El uso mas sencillo del componente es instanciando la clase `Config` pasandole un array de configuracion
+El uso mas sencillo del componente es instanciando la clase `Config` y pasarle un array de configuracion
 
 ```php
 use Smarttly\Config\Config;
@@ -69,7 +79,7 @@ $config->get('name');
 // print: John
 ```
 
-## <span class="numeral">\#</span> Como acceder a los valores de configuracion
+## <span class="numeral">\#</span> Acceder a los valores de configuracion
 
 Para acceder a los valores de configuracion se puede realizar mediante el metodo `get` o a travez del nombre de la variable.
 
@@ -96,7 +106,56 @@ echo $config->database->driver;
 // print: mongodb
 ```
 
-## <span class="numeral">\#</span>  Cargar configuracion desde archivo
+## <span class="numeral">\#</span> Validar si una configuracion existe
+
+```php
+$config->has('database');
+// true
+
+$config->database->has('driver');
+// true
+
+$config->has('fail');
+// false
+```
+
+## <span class="numeral">\#</span> Transformar la configuracion a un array simple
+
+```php
+$defaultConfiguration = [
+    'name' => 'John',
+    'lastname' => 'Doe',
+    'database' => [
+        'driver' => 'mongodb'
+    ]
+];
+
+$config = new Config($defaultConfiguration);
+
+echo print_r($config->toArray(), true);
+// print:
+//Array
+//(
+//    [name] => John
+//    [lastname] => Doe
+//    [database] => Array
+//        (
+//            [driver] => mongodb
+//        )
+//
+//    [func] => Callable function
+//)
+
+echo print_r($config->database->toArray(), true);
+// print:
+//Array
+//(
+//    [driver] => mongodb
+//)
+
+```
+
+## <span class="numeral">\#</span> Cargar configuracion desde archivos
 
 Los archivos externos pueden ser JSON o PHP
 
@@ -191,9 +250,35 @@ $defaultConfiguration = [
 
 $config = new Config($defaultConfiguration);
 
-$config->set('lastname', 'Smith);
+$config->set('lastname', 'Smith');
 echo $config->lastname;
 // print: Smith
+```
+
+## <span class="numeral">\#</span> Clase Factory
+
+La clase ConfigFactory permite instanciar la configuracion cargando un set de archivos
+
+```php
+$files = [
+    'path/to/file1.php',
+    'path/to/file2.php',
+    'path/to/file3.json',
+];
+
+$config = (ConfigFactory::create(...$files))
+    ->getConfig();
+
+// or
+
+$config = (ConfigFactory::create('path/to/file1.php', 'path/to/file2.php', 'path/to/file3.json'))
+    ->getConfig();
+
+// or
+
+$factory = ConfigFactory::create();
+$config = $factory->loadFiles(...$files)
+    ->getConfig();
 ```
 
 -- ---
@@ -205,7 +290,7 @@ Pendientes a desarrollar
 * Leer configuracion desde archivios INI
 * Leer configuracion desde archivios YAML
 * Leer configuracion desde archivo .env
-* Posibilidad de cargar un directorio de configuraciones automaticamente
+* Posibilidad de cargar un directorio
 * Notacion por puntos para acceder a configuraciones
 * Cache
 
