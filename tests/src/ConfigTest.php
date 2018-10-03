@@ -308,11 +308,22 @@ class ConfigTest extends TestCase
      */
     public function testToArray():void
     {
-        $expected = [
+        $data = [
             'name' => 'John',
-            'lastname' => 'Doe'
+            'lastname' => 'Doe',
+            'database' => [
+                'driver' => 'mongodb'
+            ],
+            'func' => function () {
+            }
         ];
-        $config = new Config($expected);
+
+        $expected = $data;
+        $expected['func'] = 'Callable function';
+
+        $config = new Config($data);
+
+        echo print_r($config->database->toArray(), true);
 
         $this->assertEquals($expected, $config->toArray());
     }
