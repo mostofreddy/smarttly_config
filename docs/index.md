@@ -39,7 +39,7 @@ Via Composer, agregando en la sección `require` del archivo `composer.json`
 ```json
 {
     "require": {
-        "smarttly/config": "*"
+        "smarttly/config": "1.0.*"
     }
 }
 ```
