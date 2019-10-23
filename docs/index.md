@@ -20,6 +20,11 @@ Los archivos de configuracion pueden estar en distintos formatos, actualmente se
 
 # <a name="funcionalidades"></a> Funcionalidades
 
+## [1.2.0]
+
+* Cambio de nombre de clases y metodos
+* Compatibilidad con PHP 7.3
+
 ## [1.1.0]
 
 * Metodo has() en clase Config
@@ -49,7 +54,7 @@ Via Composer, agregando en la sección `require` del archivo `composer.json`
 ```json
 {
     "require": {
-        "smarttly/config": "1.1.*"
+        "smarttly/config": "1.2.*"
     }
 }
 ```
@@ -173,7 +178,7 @@ use Smarttly\Config\Reader\Json;
 use Smarttly\Config\Config;
 
 $reader = new Json();
-$defaultConfiguration = $reader->fromFile('config.json);
+$defaultConfiguration = $reader->fromFile('config.json');
 
 $config = new Config($defaultConfiguration);
 
@@ -196,7 +201,7 @@ use Smarttly\Config\Reader\Php;
 use Smarttly\Config\Config;
 
 $reader = new Php();
-$defaultConfiguration = $reader->fromFile('config.php);
+$defaultConfiguration = $reader->fromFile('config.php');
 
 $config = new Config($defaultConfiguration);
 
@@ -235,7 +240,7 @@ echo $config1->database->driver;
 // print: mongodb
 ```
 
-## <span class="numeral">\#</span> Cargar/ cambiar valores de configuracion
+## <span class="numeral">\#</span> Cargar / cambiar valores de configuracion
 
 ```php
 use Smarttly\Config\Config;
@@ -250,12 +255,12 @@ $defaultConfiguration = [
 
 $config = new Config($defaultConfiguration);
 
-$config->set('lastname', 'Smith');
+$config->set('Smith', 'lastname');
 echo $config->lastname;
 // print: Smith
 ```
 
-## <span class="numeral">\#</span> Clase Factory
+## <span class="numeral">\#</span> Clase ConfigFactory
 
 La clase ConfigFactory permite instanciar la configuracion cargando un set de archivos
 
@@ -277,7 +282,14 @@ $config = (ConfigFactory::create('path/to/file1.php', 'path/to/file2.php', 'path
 // or
 
 $factory = ConfigFactory::create();
-$config = $factory->loadFiles(...$files)
+$config = $factory->appendConfigFiles(...$files)
+    ->getConfig();
+```
+
+Cargar nuevas configuraciones
+
+```php
+$config = $factory->appendConfigFiles('path/to/newFile.json')
     ->getConfig();
 ```
 

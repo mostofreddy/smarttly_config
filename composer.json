@@ -3,7 +3,7 @@
     "type": "library",
     "description": "Component that allows to load, combine and access in an easy way the configuration data of an application",
     "license": "MIT",
-    "version": "1.1.0",
+    "version": "1.2.0",
     "homepage": "https://mostofreddy.github.io/smarttly_config",
     "keywords": [
         "config",
