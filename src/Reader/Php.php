@@ -13,7 +13,7 @@
  */
 namespace Smarttly\Config\Reader;
 
-use Smarttly\Config\Reader\ReaderAbstract;
+use Smarttly\Config\Reader\AbstractReader;
 use Smarttly\Config\Exception\InvalidConfigFile;
 
 /**
@@ -26,7 +26,7 @@ use Smarttly\Config\Exception\InvalidConfigFile;
  * @license   MIT License (http://www.opensource.org/licenses/mit-license.php)
  * @link      https://github.com/mostofreddy
  */
-class Php extends ReaderAbstract
+class Php extends AbstractReader
 {
     /**
      * Load config form a file

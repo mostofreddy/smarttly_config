@@ -1,6 +1,6 @@
 <?php
 /**
- * ReaderAbstractTest
+ * ReaderAbstract
  *
  * PHP version 7.2+
  *
@@ -11,17 +11,13 @@
  * @license   MIT License (http://www.opensource.org/licenses/mit-license.php)
  * @link      https://github.com/mostofreddy
  */
-namespace Smarttly\Config\Test\Reader;
+namespace Smarttly\Config\Reader;
 
-// PHP
-use ReflectionMethod;
-// PHPUnit
-use PHPUnit\Framework\TestCase;
-// Config
-use Smarttly\Config\Reader\ReaderAbstract;
+use Smarttly\Config\Reader\ReaderInterface;
+use Smarttly\Config\Exception\InvalidConfigFile;
 
 /**
- * ReaderAbstractTest
+ * ReaderAbstract
  *
  * @category  Smarttly/Config
  * @package   Smarttly/Config
@@ -30,22 +26,21 @@ use Smarttly\Config\Reader\ReaderAbstract;
  * @license   MIT License (http://www.opensource.org/licenses/mit-license.php)
  * @link      https://github.com/mostofreddy
  */
-class ReaderAbstractTest extends TestCase
+abstract class AbstractReader implements ReaderInterface
 {
     /**
-     * Test method
+     * Validate if the file is valid and if it has read permission
      *
-     * @expectedException        \Smarttly\Config\Exception\InvalidConfigFile
-     * @expectedExceptionMessage File 'invalid_file' doesn't exist or not readable
+     * @param string $filename Path
      *
-     * @return void
+     * @throws InvalidConfigFile if the file is invalid o it not has read permission
+     * @return bool
      */
-    public function testValidateFile():void
+    protected function validateFile(string $filename):bool
     {
-        $mock = $this->getMockForAbstractClass(ReaderAbstract::class);
-        $ref = new ReflectionMethod($mock, 'validateFile');
-        $ref->setAccessible(true);
-
-        $ref->invokeArgs($mock, ['invalid_file']);
+        if (!is_file($filename) || !is_readable($filename)) {
+            throw new InvalidConfigFile(sprintf("File '%s' doesn't exist or not readable", $filename));
+        }
+        return true;
     }
 }

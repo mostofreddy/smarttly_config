@@ -13,7 +13,7 @@
  */
 namespace Smarttly\Config\Exception;
 
-use Smarttly\Config\Exception\Exception;
+use Smarttly\Config\Exception\ConfigException;
 
 /**
  * InvalidConfigFile
@@ -25,6 +25,6 @@ use Smarttly\Config\Exception\Exception;
  * @license   MIT License (http://www.opensource.org/licenses/mit-license.php)
  * @link      https://github.com/mostofreddy
  */
-class InvalidConfigFile extends Exception
+class InvalidConfigFile extends ConfigException
 {
 }

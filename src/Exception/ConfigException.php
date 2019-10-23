@@ -14,7 +14,7 @@
 namespace Smarttly\Config\Exception;
 
 // PHP
-use Exception as PHPException;
+use Exception;
 
 /**
  * Exception
@@ -26,6 +26,6 @@ use Exception as PHPException;
  * @license   MIT License (http://www.opensource.org/licenses/mit-license.php)
  * @link      https://github.com/mostofreddy
  */
-class Exception extends PHPException
+class ConfigException extends Exception
 {
 }
