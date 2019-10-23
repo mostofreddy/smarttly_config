@@ -48,8 +48,8 @@ class ConfigFactoryTest extends TestCase
 TXT;
         $tmpFilename = $this->generateTmpFile($content, 'json');
 
-        $configFactory = new ConfigFactory();
-        $configFactory->load($tmpFilename);
+        $configFactory = ConfigFactory::create();
+        $configFactory->appendConfigFiles($tmpFilename);
 
         $this->unlinkFile($tmpFilename);
 
@@ -70,7 +70,7 @@ TXT;
      */
     public function testGetExtensionFileFail()
     {
-        $configFactory = new ConfigFactory();
+        $configFactory = ConfigFactory::create();
 
         $refMethod = new \ReflectionMethod(ConfigFactory::class, 'getExtensionFile');
         $refMethod->setAccessible(true);
@@ -95,7 +95,7 @@ TXT;
 TXT;
         $tmpFilename = $this->generateTmpFile($content, 'json');
 
-        $configFactory = new ConfigFactory();
+        $configFactory = ConfigFactory::create();
 
         $refMethod = new \ReflectionMethod(ConfigFactory::class, 'getExtensionFile');
         $refMethod->setAccessible(true);
@@ -120,7 +120,7 @@ TXT;
      */
     public function testGetReaderFail()
     {
-        $configFactory = new ConfigFactory();
+        $configFactory = ConfigFactory::create();
 
         $refMethod = new \ReflectionMethod(ConfigFactory::class, 'getReader');
         $refMethod->setAccessible(true);
@@ -138,7 +138,7 @@ TXT;
      */
     public function testGetReaderJson()
     {
-        $configFactory = new ConfigFactory();
+        $configFactory = ConfigFactory::create();
 
         $refMethod = new \ReflectionMethod(ConfigFactory::class, 'getReader');
         $refMethod->setAccessible(true);
@@ -161,7 +161,7 @@ TXT;
      */
     public function testGetReaderPhp()
     {
-        $configFactory = new ConfigFactory();
+        $configFactory = ConfigFactory::create();
 
         $refMethod = new \ReflectionMethod(ConfigFactory::class, 'getReader');
         $refMethod->setAccessible(true);
@@ -353,11 +353,8 @@ TXT;
             $this->generateTmpFile($contentPhp2, 'php')
         ];
 
-        //$config = (ConfigFactory::create($files[0], $files[1]))
-        //    ->getConfig();
-
         $factory = ConfigFactory::create();
-        $config = $factory->loadFiles(...$files)
+        $config = $factory->appendConfigFiles(...$files)
             ->getConfig();
 
         $this->unlinkFile($files[0]);

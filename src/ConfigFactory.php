@@ -16,6 +16,8 @@ namespace Smarttly\Config;
 use Smarttly\Config\Config;
 use Smarttly\Config\Exception\InvalidConfigFile;
 use Smarttly\Config\Reader\ReaderInterface;
+use Smarttly\Config\Reader\Php;
+use Smarttly\Config\Reader\Json;
 
 /**
  * ConfigFactory
@@ -29,10 +31,17 @@ use Smarttly\Config\Reader\ReaderInterface;
  */
 class ConfigFactory
 {
-    protected $readers = [
-        'php' => '\Smarttly\Config\Reader\Php',
-        'json' => '\Smarttly\Config\Reader\Json'
+    const AVAILABLE_RENDERS = [
+        'php' => PHP::class,
+        'json' => JSON::class
     ];
+    
+    // protected $readers = [
+    //     'php' => '\Smarttly\Config\Reader\Php',
+    //     'json' => '\Smarttly\Config\Reader\Json'
+    // ];
+
+    /** @var Config $config */
     protected $config;
 
     /**
@@ -40,10 +49,10 @@ class ConfigFactory
      *
      * @param [string] ...$files Paths
      */
-    public function __construct(string ...$files)
+    protected function __construct(string ...$files)
     {
         $this->config = new Config();
-        $this->loadFiles(...$files);
+        $this->appendConfigFiles(...$files);
     }
 
     /**
@@ -76,10 +85,10 @@ class ConfigFactory
      *
      * @return self
      */
-    public function loadFiles(string ...$files): self
+    public function appendConfigFiles(string ...$files): self
     {
         foreach ($files as $file) {
-            $this->load($file);
+            $this->loadFileConfig($file);
         }
         return $this;
     }
@@ -91,7 +100,7 @@ class ConfigFactory
      *
      * @return void
      */
-    public function load(string $file): void
+    protected function loadFileConfig(string $file): void
     {
         $reader = $this->getReader(
             $this->getExtensionFile($file)
@@ -136,12 +145,12 @@ class ConfigFactory
         static $readerInstances = [];
 
         if (!isset($readerInstances[$extension])) {
-            if (!isset($this->readers[$extension])) {
+            if (!isset(static::AVAILABLE_RENDERS[$extension])) {
                 throw new InvalidConfigFile(
                     sprintf('Unsupported config file extension: .%s', $extension)
                 );
             }
-            $class = $this->readers[$extension];
+            $class = static::AVAILABLE_RENDERS[$extension];
             $readerInstances[$extension] = new $class;
         }
 
