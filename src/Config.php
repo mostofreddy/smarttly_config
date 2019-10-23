@@ -75,7 +75,7 @@ class Config implements Countable, Iterator, ArrayAccess
      *
      * @param mixed $value Config value
      * @param mixed $key   Config name
-     * 
+     *
      * @return self
      */
     public function set($value, $key = null): self
