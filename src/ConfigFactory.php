@@ -147,5 +147,4 @@ class ConfigFactory
 
         return $readerInstances[$extension];
     }
-
 }

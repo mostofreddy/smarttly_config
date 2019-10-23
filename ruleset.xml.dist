@@ -1,9 +1,9 @@
 <?xml version="1.0"?>
-<ruleset name="Custom PEAR">
+<ruleset name="Custom PSR2">
     <description>The PEAR standard, but warnings at 140 chars.</description>
 
     <!-- Include the whole PEAR standard -->
-    <rule ref="PEAR"/>
+    <rule ref="PSR2"/>
 
     <!-- Lines can be no longer than 140 chars -->
     <rule ref="Generic.Files.LineLength">
@@ -14,6 +14,7 @@
 
     <!-- Files -->
     <file>./src</file>
+    <file>./tests/src</file>
 
     <!-- Params -->
     <arg name="colors"/>
