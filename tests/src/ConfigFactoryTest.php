@@ -55,7 +55,7 @@ TXT;
 
         $this->assertAttributeEquals(
             ['say' => 'hello'],
-            'data',
+            'config',
             $configFactory->getConfig()
         );
     }
@@ -218,7 +218,7 @@ TXT;
                 'lastName' => 'Smith',
                 'name' => 'John'
             ],
-            'data',
+            'config',
             $config
         );
     }
@@ -267,7 +267,7 @@ TXT;
                 'lastName' => 'Smith',
                 'name' => 'John'
             ],
-            'data',
+            'config',
             $config
         );
     }
@@ -316,7 +316,7 @@ TXT;
                 'lastName' => 'Smith',
                 'name' => 'John'
             ],
-            'data',
+            'config',
             $config
         );
     }
@@ -369,7 +369,7 @@ TXT;
                 'lastName' => 'Smith',
                 'name' => 'John'
             ],
-            'data',
+            'config',
             $config
         );
     }
@@ -389,7 +389,7 @@ TXT;
 
         $this->assertAttributeEquals(
             [],
-            'data',
+            'config',
             $config
         );
     }

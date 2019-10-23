@@ -29,16 +29,16 @@ use ArrayAccess;
  */
 class Config implements Countable, Iterator, ArrayAccess
 {
-    protected $data = [];
+    protected $config = [];
 
     /**
      * Construct
      *
-     * @param array $data Configuration data. Default: []
+     * @param array $config Configuration data. Default: []
      */
-    public function __construct(array $data = [])
+    public function __construct(array $config = [])
     {
-        $this->load($data);
+        $this->load($config);
     }
 
     /**
@@ -48,15 +48,12 @@ class Config implements Countable, Iterator, ArrayAccess
      *
      * @return self
      */
-    public function load(array $data):self
+    public function load(array $config):self
     {
-        foreach ($data as $k => $v) {
-            if (is_array($v)) {
-                $this->data[$k] = new static($v);
-            } else {
-                $this->data[$k] = $v;
-            }
+        foreach ($config as $key => $value) {
+            $this->config[$key] = is_array($value) ? new static($value) : $value;
         }
+
         return $this;
     }
 
@@ -70,26 +67,23 @@ class Config implements Countable, Iterator, ArrayAccess
      */
     public function get(string $name, $default = null)
     {
-        if (array_key_exists($name, $this->data)) {
-            return $this->data[$name];
-        }
-        return $default;
+        return $this->config[$name] ?? $default;
     }
 
     /**
      * Set new value in configuration
      *
-     * @param mixed $key   Config name
      * @param mixed $value Config value
-     *
+     * @param mixed $key   Config name
+     * 
      * @return self
      */
-    public function set($key, $value): self
+    public function set($value, $key = null): self
     {
         if (is_null($key)) {
-            $this->data[] = is_array($value) ? new static($value) : $value;
+            $this->config[] = is_array($value) ? new static($value) : $value;
         } else {
-            $this->data[$key] = is_array($value) ? new static($value) : $value;
+            $this->config[$key] = is_array($value) ? new static($value) : $value;
         }
         return $this;
     }
@@ -97,13 +91,13 @@ class Config implements Countable, Iterator, ArrayAccess
     /**
      * Checks for a key
      *
-     * @param string $name Config name
+     * @param string $key Config name
      *
      * @return boolean
      */
-    public function has(string $name): bool
+    public function has(string $key): bool
     {
-        return array_key_exists($name, $this->data);
+        return array_key_exists($key, $this->config);
     }
 
     /**
@@ -116,16 +110,16 @@ class Config implements Countable, Iterator, ArrayAccess
     public function merge(Config $config):void
     {
         foreach ($config as $key => $value) {
-            if (array_key_exists($key, $this->data)) {
+            if (array_key_exists($key, $this->config)) {
                 if (is_int($key)) {
-                    $this->data[] = $value;
-                } elseif ($value instanceof self && $this->data[$key] instanceof self) {
-                    $this->data[$key]->merge($value);
+                    $this->config[] = $value;
+                } elseif ($value instanceof self && $this->config[$key] instanceof self) {
+                    $this->config[$key]->merge($value);
                 } else {
-                    $this->data[$key] = $value;
+                    $this->config[$key] = $value;
                 }
             } else {
-                $this->data[$key] = $value;
+                $this->config[$key] = $value;
             }
         }
     }
@@ -138,7 +132,7 @@ class Config implements Countable, Iterator, ArrayAccess
     public function toArray():array
     {
         $array = [];
-        foreach ($this->data as $key => $value) {
+        foreach ($this->config as $key => $value) {
             if ($value instanceof self) {
                 $array[$key] = $value->toArray();
             } elseif (is_callable($value)) {
@@ -172,12 +166,12 @@ class Config implements Countable, Iterator, ArrayAccess
      *
      * @param int|string $key   Attribute name
      * @param mixed      $value Value
-
+     *
      * @return void
      */
     public function __set($key, $value)
     {
-        return $this->set($key, $value);
+        return $this->set($value, $key);
     }
 
     /**
@@ -189,7 +183,7 @@ class Config implements Countable, Iterator, ArrayAccess
      */
     public function __isset($key)
     {
-        return isset($this->data[$key]);
+        return isset($this->config[$key]);
     }
 
     /**
@@ -201,7 +195,7 @@ class Config implements Countable, Iterator, ArrayAccess
      */
     public function __unset($key)
     {
-        unset($this->data[$key]);
+        unset($this->config[$key]);
     }
 
     /*************************************************
@@ -216,18 +210,18 @@ class Config implements Countable, Iterator, ArrayAccess
      */
     public function count()
     {
-        return count($this->data);
+        return count($this->config);
     }
 
     /**
-     * Method current(): defined by Countable interface.
+     * Method current(): defined by Iterator interface.
      *
      * @see    Iterator::current()
      * @return int
      */
     public function current()
     {
-        return current($this->data);
+        return current($this->config);
     }
 
     /**
@@ -238,7 +232,7 @@ class Config implements Countable, Iterator, ArrayAccess
      */
     public function key()
     {
-        return key($this->data);
+        return key($this->config);
     }
 
     /**
@@ -249,7 +243,7 @@ class Config implements Countable, Iterator, ArrayAccess
      */
     public function next()
     {
-        next($this->data);
+        next($this->config);
     }
 
     /**
@@ -260,7 +254,7 @@ class Config implements Countable, Iterator, ArrayAccess
      */
     public function rewind()
     {
-        reset($this->data);
+        reset($this->config);
     }
 
     /**
